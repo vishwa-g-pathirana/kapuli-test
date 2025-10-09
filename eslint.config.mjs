@@ -31,7 +31,7 @@ export default tseslint.config(
   },
   {
     rules: {
-      // 🧠 Prettier formatting rules for consistency
+      // Prettier formatting rules for consistency
       'prettier/prettier': [
         'error',
         {
@@ -46,13 +46,13 @@ export default tseslint.config(
         },
       ],
 
-      // 🚨 TypeScript rules
+      // TypeScript rules
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
 
-      // 💎 NestJS convention improvements
+      // NestJS convention improvements
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-var': 'error',
       'prefer-const': 'error',
