@@ -6,11 +6,17 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Deployment
-FROM node:22-slim
+# DEV image
+FROM node:22-slim AS dev
+WORKDIR /app
+COPY --from=build /app/src ./src
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/tsconfig.json ./tsconfig.json
+RUN npm ci
+
+# PROD image
+FROM node:22-slim AS prod
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
 RUN npm ci --omit=dev
-EXPOSE 3030
-CMD ["node", "dist/src/main"]
