@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import Joi from 'joi';
-import { ReqRespLoggerMiddleware } from './middleware/req-resp-logger.middleware';
+import { ReqRespLoggerMiddleware } from './common/middleware/req-resp-logger.middleware';
 
 @Module({
   imports: [
