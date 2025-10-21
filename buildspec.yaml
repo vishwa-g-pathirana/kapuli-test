@@ -2,7 +2,8 @@ version: 0.2
 
 env:
   variables:
-    REPO_URI: "123456789012.dkr.ecr.us-east-2.amazonaws.com/kapuli-app"
+    REPO_URI: "692859942627.dkr.ecr.eu-north-1.amazonaws.com/kapuli-app"
+    AWS_REGION: "eu-north-1"
 phases:
   install:
     runtime-versions:
@@ -29,4 +30,3 @@ phases:
 artifacts:
   files:
     - imagedefinitions.json
-
