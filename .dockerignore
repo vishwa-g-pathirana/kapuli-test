@@ -1,0 +1,35 @@
+# Dependency and build directories
+node_modules
+dist
+
+# Log files
+npm-debug.log
+
+# Build and ignore configuration files
+Dockerfile
+.dockerignore
+
+# Git configuration files
+.git
+.gitignore
+
+# Linter config files
+.eslint*
+
+# Test and coverage directories
+test
+coverage
+
+# Environment files
+.env
+.env.*
+
+# Documentation files
+*.md
+
+# Test source files
+*.spec.ts
+*.test.ts
+
+# Migration scripts
+migrations

@@ -17,19 +17,28 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
+    "migration:generate": "npm run typeorm -- migration:generate src/migrations/$npm_config_name -d ./ormconfig.ts",
+    "migration:create": "npm run typeorm -- migration:create src/migrations/$npm_config_name -d ./ormconfig.ts",
+    "migration:run": "npm run typeorm -- migration:run -d ./ormconfig.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d ./ormconfig.ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prepare": "node -e \"if(require('fs').existsSync('./node_modules/husky')){require('child_process').execSync('husky install', {stdio:'inherit'})}\""
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.1",
     "@nestjs/typeorm": "^11.0.0",
     "dotenv": "^17.2.3",
     "joi": "^18.0.1",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.27"
   },
   "devDependencies": {
@@ -42,12 +51,14 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
-    "eslint": "^9.18.0",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.2",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "jest": "^30.0.0",
-    "prettier": "^3.4.2",
+    "lint-staged": "^16.2.3",
+    "prettier": "^3.6.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
@@ -73,5 +84,16 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js,json,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
