@@ -1,0 +1,61 @@
+{
+  "family": "kapuli-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::692859942627:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::692859942627:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "kapuli-app",
+      "image": "692859942627.dkr.ecr.eu-north-1.amazonaws.com/kapuli-app:LATEST",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3030,
+          "hostPort": 3030,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "ENV",
+          "value": "DEV"
+        },
+        {
+          "name": "PORT",
+          "value": "3030"
+        },
+        {
+          "name": "DB_HOST",
+          "value": "localhost"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "5432"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "kapuli"
+        },
+        {
+          "name": "DB_USER",
+          "value": "postgres"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "value": "postgres123"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/kapuli-app",
+          "awslogs-region": "eu-north-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
