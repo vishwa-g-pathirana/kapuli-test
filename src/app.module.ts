@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import Joi from 'joi';
 import { ReqRespLoggerMiddleware } from './common/middleware/req-resp-logger.middleware';
+import { AppLogger } from './common/services/logger.service';
 
 @Module({
   imports: [
@@ -33,11 +34,12 @@ import { ReqRespLoggerMiddleware } from './common/middleware/req-resp-logger.mid
         database: process.env.DB_NAME,
         entities: [__dirname + '/**/*.entity{.ts,.js}'], // Auto-load entities
         synchronize: false,
+        ssl: { rejectUnauthorized: false },
       }),
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppLogger],
 })
 export class AppModule implements NestModule {
   // Request Response Logger Middleware
