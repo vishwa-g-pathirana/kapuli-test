@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getStatus();
   }
 
-  @Get('health')
+  @Get('api-health')
   getHealth() {
     return { status: 'ok' };
   }
