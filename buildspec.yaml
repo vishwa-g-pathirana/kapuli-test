@@ -4,29 +4,43 @@ env:
   variables:
     REPO_URI: "692859942627.dkr.ecr.eu-north-1.amazonaws.com/kapuli-app"
     AWS_REGION: "eu-north-1"
+
 phases:
   install:
     runtime-versions:
       nodejs: 22
     commands:
-      - echo "Installing dependencies"
+      - echo "Installing dependencies..."
       - npm ci
+
   pre_build:
     commands:
+      - echo "Running database migrations before build..."
+      - npm run migration:run || echo "No migrations to run or already applied."
+
+      - echo "Compiling TypeScript project..."
+      - npm run build
+
       - echo "Logging in to Amazon ECR..."
       - aws --version
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REPO_URI
+
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-7)
       - echo "IMAGE_TAG=$IMAGE_TAG" > image_tag.txt
+
   build:
     commands:
-      - echo "Building Docker image..."
+      - echo "Building Docker image (target: prod)..."
       - docker build --target prod -t ${REPO_URI}:$IMAGE_TAG .
+
   post_build:
     commands:
       - echo "Pushing Docker image to ECR..."
       - docker push ${REPO_URI}:$IMAGE_TAG
+
+      - echo "Creating imagedefinitions.json for ECS..."
       - printf '[{"name":"kapuli-app","imageUri":"%s"}]' "${REPO_URI}:$IMAGE_TAG" > imagedefinitions.json
+
 artifacts:
   files:
     - imagedefinitions.json
